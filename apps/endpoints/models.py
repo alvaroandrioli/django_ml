@@ -1,6 +1,5 @@
 from sys import version
 from django.db import models
-from django.db.models import base
 
 # Create your models here.
 class Endpoint(models.Model):
@@ -46,3 +45,16 @@ class MLRequest(models.Model):
   feedback = models.CharField(max_length=10000, blank=True, null=True)
   created_at = models.DateTimeField(auto_now_add=True, blank=True)
   parent_mlalgorithm = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE)
+
+class ABTest(models.Model):
+  '''
+  Irá manter informações sobre o teste A/B
+  '''
+  title = models.CharField(max_length=10000)
+  created_by = models.CharField(max_length=128)
+  created_at = models.DateTimeField(auto_now_add=True, blank=True)
+  ended_at = models.DateTimeField(blank=True, null=True)
+  summary = models.CharField(max_length=10000, blank=True, null=True)
+
+  parent_mlalgorithm_1 = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE, related_name="parent_mlalgorithm_1")
+  parent_mlalgorithm_2 = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE, related_name="parent_mlalgorithm_2")
